@@ -54,16 +54,7 @@ namespace NZWalks.API.Repositories
         //Delete 
         public async Task<WalkDifficulty> DeleteAsync(Guid id)
         {
-            //var walk = nZWalksDbContext.Walks.FirstOrDefault(x => x.Id == id);
-            //if (walk == null)
-            //{
-            //    return null;
-            //}
-            ////delete the selected record
-            //nZWalksDbContext.Remove(walk);
-            //await nZWalksDbContext.SaveChangesAsync();
-            //return walk;
-            var walkD = nZWalksDbContext.WalkDifficulty.FirstOrDefault(x => x.Id == id);
+           var walkD = nZWalksDbContext.WalkDifficulty.FirstOrDefault(x => x.Id == id);
             if(walkD ==null)
             {
                 return null;
