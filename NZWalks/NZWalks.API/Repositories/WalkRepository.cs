@@ -14,9 +14,6 @@ namespace NZWalks.API.Repositories
         {
             this.nZWalksDbContext = nZWalksDbContext;
         }
-
-
-
         public async Task<IEnumerable<Walk>> GetAllAsync()
         {
             return await nZWalksDbContext.Walks

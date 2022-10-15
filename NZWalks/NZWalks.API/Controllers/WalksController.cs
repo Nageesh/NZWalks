@@ -78,7 +78,7 @@ namespace NZWalks.API.Controllers
         }
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<IActionResult> UpdateUpdateAsync([FromRoute] Guid id, [FromBody]  Models.DTO.UpdateWalkRequest UpdateWalkRequest )
+        public async Task<IActionResult> UpdateWalkDAsync([FromRoute] Guid id, [FromBody]  Models.DTO.UpdateWalkRequest UpdateWalkRequest )
         {
             //Convert DTO to Domain Model
             var walkDomain = new Models.Domain.Walk()
