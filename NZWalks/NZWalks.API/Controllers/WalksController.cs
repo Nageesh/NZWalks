@@ -152,24 +152,25 @@ namespace NZWalks.API.Controllers
         #region Private Methods
         private async Task<bool> ValidateAddWalkAsync(Models.DTO.AddWalkRequest AddWalkRequest)
         {
-           if(AddWalkRequest ==null)
-            {
-                ModelState.AddModelError(nameof(AddWalkRequest),
-                   $"{nameof(AddWalkRequest)} Add walk request data is required");
-                return false;
+            #region Commented here and implemented in Fluent validator
+            //if(AddWalkRequest ==null)
+            // {
+            //     ModelState.AddModelError(nameof(AddWalkRequest),
+            //        $"{nameof(AddWalkRequest)} Add walk request data is required");
+            //     return false;
 
-            }
-            if (string.IsNullOrWhiteSpace(AddWalkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(AddWalkRequest.Name),
-                    $"{nameof(AddWalkRequest.Name)} cannot be null or empty or whitespace ");
-            }
-            if (AddWalkRequest.Length < 0)
-            {
-                ModelState.AddModelError(nameof(AddWalkRequest.Name),
-                    $"{nameof(AddWalkRequest.Length)} cannot be lessthan zero");
-            }
-
+            // }
+            // if (string.IsNullOrWhiteSpace(AddWalkRequest.Name))
+            // {
+            //     ModelState.AddModelError(nameof(AddWalkRequest.Name),
+            //         $"{nameof(AddWalkRequest.Name)} cannot be null or empty or whitespace ");
+            // }
+            // if (AddWalkRequest.Length < 0)
+            // {
+            //     ModelState.AddModelError(nameof(AddWalkRequest.Name),
+            //         $"{nameof(AddWalkRequest.Length)} cannot be lessthan zero");
+            // }
+            #endregion 
             //Since need to input valid region id need to inject region repository
             var region = await regionRepository.GetAsync(AddWalkRequest.RegionId );
            if(region == null)
@@ -193,24 +194,25 @@ namespace NZWalks.API.Controllers
         }
         private async Task<bool> ValidateUpdateWalkAsync(Models.DTO.UpdateWalkRequest UpdateWalkRequest)
         {
-            if (UpdateWalkRequest == null)
-            {
-                ModelState.AddModelError(nameof(AddWalkRequest),
-                   $"{nameof(UpdateWalkRequest.Name)} Update walk request data is required");
-                return false;
+            #region Commented here and implemented in Fluent validator
+            //if (UpdateWalkRequest == null)
+            //{
+            //    ModelState.AddModelError(nameof(AddWalkRequest),
+            //       $"{nameof(UpdateWalkRequest.Name)} Update walk request data is required");
+            //    return false;
 
-            }
-            if (string.IsNullOrWhiteSpace(UpdateWalkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(UpdateWalkRequest.Name),
-                    $"{nameof(UpdateWalkRequest.Name)} cannot be null or empty or whitespace ");
-            }
-            if (UpdateWalkRequest.Length <= 0)
-            {
-                ModelState.AddModelError(nameof(UpdateWalkRequest.Name),
-                    $"{nameof(UpdateWalkRequest.Length)} sould be greaterthan zero");
-            }
-
+            //}
+            //if (string.IsNullOrWhiteSpace(UpdateWalkRequest.Name))
+            //{
+            //    ModelState.AddModelError(nameof(UpdateWalkRequest.Name),
+            //        $"{nameof(UpdateWalkRequest.Name)} cannot be null or empty or whitespace ");
+            //}
+            //if (UpdateWalkRequest.Length <= 0)
+            //{
+            //    ModelState.AddModelError(nameof(UpdateWalkRequest.Name),
+            //        $"{nameof(UpdateWalkRequest.Length)} sould be greaterthan zero");
+            //}
+            #endregion 
             //Since need to input valid region id need to inject region repository
             var region = await regionRepository.GetAsync(UpdateWalkRequest.RegionId);
             if (region == null)
