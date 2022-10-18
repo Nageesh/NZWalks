@@ -9,7 +9,7 @@ namespace NZWalks.API.Controllers
     [ApiController]
     // [Route("Region")]
     [Route("[Controller]")]
-    [Authorize]
+   
     public class RegionsController : Controller
     {
         private readonly IRegionRepository regionRepository;
@@ -21,6 +21,7 @@ namespace NZWalks.API.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
+        [Authorize(Roles ="reader")]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await regionRepository.GetAllAsync();
@@ -52,6 +53,7 @@ namespace NZWalks.API.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetRegionsAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetRegionsAsync(Guid id)
         {
             var regions = await regionRepository.GetAsync(id);
@@ -63,6 +65,7 @@ namespace NZWalks.API.Controllers
             return Ok(regionsDTO);
         }
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest AddRegionRequest)
         {
             //Validate the request
@@ -102,6 +105,7 @@ namespace NZWalks.API.Controllers
    
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute]Guid id,[FromBody] Models.DTO.UpdateRegionRequest UpdateRegionRequest)
         {
             //Validate the method
@@ -144,8 +148,10 @@ namespace NZWalks.API.Controllers
             return Ok(regionDTO);
 
         }
+      
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             //Get Region from database
@@ -173,6 +179,8 @@ namespace NZWalks.API.Controllers
             return Ok(regionDTO);
 
         }
+       
+        
         #region Private Methods
         private bool ValidateAddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {

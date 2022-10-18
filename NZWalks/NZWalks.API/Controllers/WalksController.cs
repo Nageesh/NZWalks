@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Repositories;
 using NZWalks.API.Models.DTO;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace NZWalks.API.Controllers
 {
@@ -25,7 +27,9 @@ namespace NZWalks.API.Controllers
             this.regionRepository = regionRepository;
             this.walkDifficultyRepository = walkDifficultyRepository;
         }
+
         [HttpGet]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllWalkAsync()
         {
             //fetch data from database -- domain walks
@@ -36,10 +40,11 @@ namespace NZWalks.API.Controllers
             //return ok response
             return Ok(walksDTO);
         }
+       
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetWalkAsync")]
-
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetWalkAsync(Guid id)
         {
             //Get walk domain object from database
@@ -53,8 +58,9 @@ namespace NZWalks.API.Controllers
             return Ok(walksDTO);
         }
 
-       [HttpPost]
-       public async Task<IActionResult> AddWalkAsync(Models.DTO.AddWalkRequest AddWalkRequest  )
+        [HttpPost]
+        [Authorize(Roles = "writer")]
+        public async Task<IActionResult> AddWalkAsync(Models.DTO.AddWalkRequest AddWalkRequest  )
         {
             //validate input request
             if(!(await ValidateAddWalkAsync(AddWalkRequest)))
@@ -89,8 +95,10 @@ namespace NZWalks.API.Controllers
             return CreatedAtAction(nameof(GetAllWalkAsync), new {id = walkdomain.Id}, walkDTO);
            
         }
+       
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody]  Models.DTO.UpdateWalkRequest UpdateWalkRequest )
         {
             //Validate input request
@@ -124,8 +132,10 @@ namespace NZWalks.API.Controllers
            // Return Ok response
             return Ok(walkDTO);
         }
+       
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteWalkAsync(Guid id)
         {
             //Get Region from database
@@ -149,6 +159,8 @@ namespace NZWalks.API.Controllers
           return Ok(walkDTO);
 
         }
+        
+        
         #region Private Methods
         private async Task<bool> ValidateAddWalkAsync(Models.DTO.AddWalkRequest AddWalkRequest)
         {

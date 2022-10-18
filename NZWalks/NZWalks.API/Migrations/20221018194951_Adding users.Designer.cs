@@ -12,8 +12,8 @@ using NZWalks.API.Data;
 namespace NZWalks.API.Migrations
 {
     [DbContext(typeof(NZWalksDbContext))]
-    [Migration("20221011141245_NZWalksDb")]
-    partial class NZWalksDb
+    [Migration("20221018194951_Adding users")]
+    partial class Addingusers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,73 @@ namespace NZWalks.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Regions");
+                });
+
+            modelBuilder.Entity("NZWalks.API.Models.Domain.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("NZWalks.API.Models.Domain.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("NZWalks.API.Models.Domain.User_Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Users_Roles");
                 });
 
             modelBuilder.Entity("NZWalks.API.Models.Domain.Walk", b =>
@@ -98,6 +165,25 @@ namespace NZWalks.API.Migrations
                     b.ToTable("WalkDifficulty");
                 });
 
+            modelBuilder.Entity("NZWalks.API.Models.Domain.User_Role", b =>
+                {
+                    b.HasOne("NZWalks.API.Models.Domain.Role", "role")
+                        .WithMany("userRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NZWalks.API.Models.Domain.User", "user")
+                        .WithMany("userRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("role");
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("NZWalks.API.Models.Domain.Walk", b =>
                 {
                     b.HasOne("NZWalks.API.Models.Domain.Region", "Region")
@@ -120,6 +206,16 @@ namespace NZWalks.API.Migrations
             modelBuilder.Entity("NZWalks.API.Models.Domain.Region", b =>
                 {
                     b.Navigation("Walks");
+                });
+
+            modelBuilder.Entity("NZWalks.API.Models.Domain.Role", b =>
+                {
+                    b.Navigation("userRoles");
+                });
+
+            modelBuilder.Entity("NZWalks.API.Models.Domain.User", b =>
+                {
+                    b.Navigation("userRoles");
                 });
 #pragma warning restore 612, 618
         }
