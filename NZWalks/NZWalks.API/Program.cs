@@ -52,7 +52,8 @@ builder.Services.AddScoped<IRegionRepository, RegionRepository>();
 builder.Services.AddScoped<IWalkRepository, WalkRepository>();
 builder.Services.AddScoped<IWalkDifficultyRepository, WalkDifficultyRepository>();
 builder.Services.AddScoped<ITokenHandler, NZWalks.API.Repositories.TokenHandler>();
-builder.Services.AddSingleton<IUserRepository, StaticUserRepository>();//For authentication
+//builder.Services.AddSingleton<IUserRepository, StaticUserRepository>();//For authentication
+builder.Services.AddScoped<IUserRepository, UserRepository>();//For authentication
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly); // To Inject AutoMapper
 
